@@ -1,0 +1,22 @@
+{
+	"name":        "kohana/youtube",
+	"type":        "kohana-module",
+	"description": "Unofficial kohana module to simplify YouTube operations",
+	"homepage":    "http://kohanaframework.org",
+	"license":     "BSD-3-Clause",
+	"keywords":    ["kohana", "framework", "youtube"],
+	"authors": [
+		{
+			"name":     "noxxan",
+			"email":    "lukaszlesko@gmail.com",
+			"homepage": "http://github.com/noxxan",
+			"role":     "developer"
+		}
+	],
+	"require": {
+		"composer/installers": "~1.0",
+		"kohana/core":         ">=3.3",
+		"php":                 ">=5.3.3",
+		"zendframework/zendgdata": ">=2.0"
+	}
+}
