@@ -7,7 +7,9 @@ class LemonSky_YouTube_Upload
     public function __construct($config = null)
     {
         if (null === $config) {
-            $config = Kohana::$config->load('youtube');
+            $this->_config = Kohana::$config->load('youtube');
+        } else {
+            $this->_config = $config;
         }
         
         $adapter = new \Zend\Http\Client\Adapter\Curl();
@@ -17,19 +19,19 @@ class LemonSky_YouTube_Upload
         $httpClient->setAdapter($adapter);
         
         $httpClient = \ZendGData\ClientLogin::getHttpClient(
-			$config['username'],
-            $config['password'],
+			$this->_config['username'],
+            $this->_config['password'],
             'youtube',
             $httpClient,
-            $config['source'],
+            $this->_config['source'],
             null,
             null,
-            $config['auth_url']
+            $this->_config['auth_url']
         );
     
-        $developerKey = $config['dev_key'];
-        $applicationId = $config['source'];
-        $clientId = $config['source'];
+        $developerKey = $this->_config['dev_key'];
+        $applicationId = $this->_config['source'];
+        $clientId = $this->_config['source'];
     
         $this->_yt = new \ZendGData\YouTube($httpClient, $applicationId, $clientId, $developerKey);
         $this->_yt->setMajorProtocolVersion(2);
@@ -61,7 +63,7 @@ class LemonSky_YouTube_Upload
         $myVideoEntry->setVideoPrivate();
         $myVideoEntry->SetVideoTags('entertainment');
 
-        $newEntry = $this->_yt->insertEntry($myVideoEntry, $config['upload_url'], 'Zend_Gdata_YouTube_VideoEntry');
+        $newEntry = $this->_yt->insertEntry($myVideoEntry, $this->_config['upload_url'], 'Zend_Gdata_YouTube_VideoEntry');
         $newEntry->setMajorProtocolVersion(2);
     
         return array(
