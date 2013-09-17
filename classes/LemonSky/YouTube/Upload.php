@@ -46,9 +46,11 @@ class LemonSky_YouTube_Upload
      */
     public function uploadFileFromLocalStorage($filepath)
     {
+        $slug = end(explode('/', $filepath));
+        
         $filesource = $this->_yt->newMediaFileSource($filepath);
         $filesource->setContentType('video/quicktime');
-        $filesource->setSlug(end(explode('/', $filepath)));
+        $filesource->setSlug($slug);
         
         $myVideoEntry = new \ZendGData\YouTube\VideoEntry();
         $myVideoEntry->setMediaSource($filesource);
