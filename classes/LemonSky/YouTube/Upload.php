@@ -4,7 +4,7 @@ class LemonSky_YouTube_Upload
 {
     protected $_yt;
     
-    public function __construct()
+    public function __construct($config = null)
     {
         if (null === $config) {
             $config = Kohana::$config->load('youtube');
