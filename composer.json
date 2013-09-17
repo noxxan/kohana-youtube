@@ -16,8 +16,7 @@
 	],
 	"require": {
 		"composer/installers": "~1.0",
-		"kohana/core":         ">=3.3",
 		"php":                 ">=5.3.3",
-		"zendframework/zendgdata": "*"
+		"nyholm/google-api-php-client": "0.1.4"
 	}
 }
