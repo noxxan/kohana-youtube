@@ -1,8 +1,6 @@
 <?php
 
-namespace \LemonSky\YouTube;
-
-class Upload
+class LemonSky_YouTube_Upload
 {
     protected $_yt;
     

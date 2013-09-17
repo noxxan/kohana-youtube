@@ -1,8 +1,6 @@
 <?php
 
-namespace \LemonSky\YouTube;
-
-class Api
+class LemonSky_YouTube_Api
 {
     protected $_yt;
     protected $_debug;
