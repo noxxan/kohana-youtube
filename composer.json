@@ -1,5 +1,6 @@
 {
 	"name":        "kohana/youtube",
+	"version": "0.1",
 	"type":        "kohana-module",
 	"description": "Unofficial kohana module to simplify YouTube operations",
 	"homepage":    "http://kohanaframework.org",
