@@ -9,15 +9,21 @@ class LemonSky_YouTube_Upload
         if (null === $config) {
             $config = Kohana::$config->load('youtube');
         }
-    
+        
+        $adapter = new \Zend\Http\Client\Adapter\Curl();
+        $adapter = $adapter->setCurlOption(CURLOPT_SSL_VERIFYHOST,false);
+        $adapter = $adapter->setCurlOption(CURLOPT_SSL_VERIFYPEER,false);
+        $httpClient = new \ZendGData\HttpClient();
+        $httpClient->setAdapter($adapter);
+        
         $httpClient = \ZendGData\ClientLogin::getHttpClient(
-			$username = $config['username'],
-            $password = $config['password'],
-            $service = 'youtube',
-            $client = null,
-            $source = $config['source'],
-            $loginToken = null,
-            $loginCaptcha = null,
+			$config['username'],
+            $config['password'],
+            'youtube',
+            $httpClient,
+            $config['source'],
+            null,
+            null,
             $config['auth_url']
         );
     
@@ -27,6 +33,7 @@ class LemonSky_YouTube_Upload
     
         $this->_yt = new \ZendGData\YouTube($httpClient, $applicationId, $clientId, $developerKey);
         $this->_yt->setMajorProtocolVersion(2);
+        $this->_yt->getHttpClient()->setOptions(array('sslverifypeer' => false));
     }
     
     /**
