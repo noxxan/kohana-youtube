@@ -10,7 +10,7 @@ class LemonSky_YouTube_Upload
             $config = Kohana::$config->load('youtube');
         }
     
-        $httpClient = \ZendGdata\ClientLogin::getHttpClient(
+        $httpClient = \ZendGData\ClientLogin::getHttpClient(
 			$username = $config['username'],
             $password = $config['password'],
             $service = 'youtube',
@@ -25,7 +25,7 @@ class LemonSky_YouTube_Upload
         $applicationId = $config['source'];
         $clientId = $config['source'];
     
-        $this->_yt = new \ZendGdata\YouTube($httpClient, $applicationId, $clientId, $developerKey);
+        $this->_yt = new \ZendGData\YouTube($httpClient, $applicationId, $clientId, $developerKey);
         $this->_yt->setMajorProtocolVersion(2);
     }
     
@@ -43,7 +43,7 @@ class LemonSky_YouTube_Upload
         $filesource->setContentType('video/quicktime');
         $filesource->setSlug(end(explode('/', $filepath)));
         
-        $myVideoEntry = new \ZendGdata\YouTube\VideoEntry();
+        $myVideoEntry = new \ZendGData\YouTube\VideoEntry();
         $myVideoEntry->setMediaSource($filesource);
         $myVideoEntry->setVideoTitle('Video');
         $myVideoEntry->setVideoDescription('My video');
