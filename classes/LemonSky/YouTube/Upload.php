@@ -63,7 +63,7 @@ class LemonSky_YouTube_Upload
         $myVideoEntry->setVideoPrivate();
         $myVideoEntry->SetVideoTags('entertainment');
 
-        $newEntry = $this->_yt->insertEntry($myVideoEntry, $this->_config['upload_url'], 'Zend_Gdata_YouTube_VideoEntry');
+        $newEntry = $this->_yt->insertEntry($myVideoEntry, $this->_config['upload_url'], 'ZendGData\YouTube\VideoEntry');
         $newEntry->setMajorProtocolVersion(2);
     
         return array(
