@@ -16,7 +16,7 @@
 	],
 	"require": {
 		"composer/installers": "~1.0",
-		"php":                 ">=5.3.3",
-		"nyholm/google-api-php-client": "0.1.4"
+		"kohana/core":         ">=3.3",
+		"php":                 ">=5.3.3"
 	}
 }
