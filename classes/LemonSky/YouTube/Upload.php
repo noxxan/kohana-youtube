@@ -46,7 +46,8 @@ class LemonSky_YouTube_Upload
      */
     public function uploadFileFromLocalStorage($filepath)
     {
-        $slug = end(explode('/', $filepath));
+        $slug = explode('/', $filepath);
+        $slug = end($slug);
         
         $filesource = $this->_yt->newMediaFileSource($filepath);
         $filesource->setContentType('video/quicktime');
