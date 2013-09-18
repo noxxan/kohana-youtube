@@ -12,17 +12,11 @@ class LemonSky_YouTube_Upload
             $this->_config = $config;
         }
         
-        $adapter = new \Zend\Http\Client\Adapter\Curl();
-        $adapter = $adapter->setCurlOption(CURLOPT_SSL_VERIFYHOST,false);
-        $adapter = $adapter->setCurlOption(CURLOPT_SSL_VERIFYPEER,false);
-        $httpClient = new \ZendGData\HttpClient();
-        $httpClient->setAdapter($adapter);
-        
-        $httpClient = \ZendGData\ClientLogin::getHttpClient(
+        $httpClient = Zend_Gdata_ClientLogin::getHttpClient(
 			$this->_config['username'],
             $this->_config['password'],
             'youtube',
-            $httpClient,
+            null,
             $this->_config['source'],
             null,
             null,
@@ -33,9 +27,8 @@ class LemonSky_YouTube_Upload
         $applicationId = $this->_config['source'];
         $clientId = $this->_config['source'];
     
-        $this->_yt = new \ZendGData\YouTube($httpClient, $applicationId, $clientId, $developerKey);
+        $this->_yt = new Zend_Gdata_YouTube($httpClient, $applicationId, $clientId, $developerKey);
         $this->_yt->setMajorProtocolVersion(2);
-        $this->_yt->getHttpClient()->setOptions(array('sslverifypeer' => false));
     }
     
     /**
@@ -55,7 +48,7 @@ class LemonSky_YouTube_Upload
         $filesource->setContentType('video/quicktime');
         $filesource->setSlug($slug);
         
-        $myVideoEntry = new \ZendGData\YouTube\VideoEntry();
+        $myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
         $myVideoEntry->setMediaSource($filesource);
         $myVideoEntry->setVideoTitle('Video');
         $myVideoEntry->setVideoDescription('My video');
@@ -63,7 +56,7 @@ class LemonSky_YouTube_Upload
         $myVideoEntry->setVideoPrivate();
         $myVideoEntry->SetVideoTags('entertainment');
 
-        $newEntry = $this->_yt->insertEntry($myVideoEntry, $this->_config['upload_url'], 'ZendGData\YouTube\VideoEntry');
+        $newEntry = $this->_yt->insertEntry($myVideoEntry, $this->_config['upload_url'], 'Zend_Gdata_YouTube_VideoEntry');
         $newEntry->setMajorProtocolVersion(2);
     
         return array(
