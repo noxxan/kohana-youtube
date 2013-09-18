@@ -7,11 +7,11 @@ class LemonSky_YouTube_Api
     
     public function __construct()
     {
-        $yt = new \ZendGData\YouTube();
+        $yt = new Zend_Gdata_YouTube();
         $yt->setMajorProtocolVersion(2);
-        $yt->getHttpClient()->setOptions(array('sslverifypeer' => false));
-        
+
         $this->_yt = $yt;
+        $this->_developerKey = Kohana::$config->load('youtube.dev_key');
     }
     
     public function setDebug($debug)
@@ -37,7 +37,7 @@ class LemonSky_YouTube_Api
         $videos = array();
         
         while ($page < $maxPages) {
-            $url = $location . '?start-index=' . $startIndex . '&key=' . $this->getDeveloperKey();
+            $url = $location . '?start-index=' . $startIndex . '&key=' . $this->_developerKey;
             $uploads = $this->_yt->getUserUploads(null, $url);
             
             if ($this->getDebug()) {
@@ -93,7 +93,7 @@ class LemonSky_YouTube_Api
         $comments = array();
         
         while ($page < $maxPages) {
-            $url = 'https://gdata.youtube.com/feeds/api/videos/' . $videoId . '/comments?start-index=' . $startIndex . '&key=' . $this->getDeveloperKey();
+            $url = 'https://gdata.youtube.com/feeds/api/videos/' . $videoId . '/comments?start-index=' . $startIndex . '&key=' . $this->_developerKey;
             $commentFeed = $this->_yt->getVideoCommentFeed(null, $url);
             
             if ($this->getDebug()) {
@@ -122,5 +122,48 @@ class LemonSky_YouTube_Api
         }
         
         return $comments;
+    }
+    
+    public function collectVideosFromPlaylist($playlist, $maxPages = 41)
+    {
+        // user uploads
+        $location = 'https://gdata.youtube.com/feeds/api/playlists/' . $playlist;
+    
+        // fetch all pages
+        $startIndex = 1;
+        $youtubePerPage = 25;
+    
+        $page = 0;
+        $videos = array();
+    
+        while ($page < $maxPages) {
+            $url = $location . '?start-index=' . $startIndex . '&key=' . $this->_developerKey;
+            $uploads = $this->_yt->getPlaylistVideoFeed($url);
+    
+            if (count($uploads) == 0) {
+                break;
+            }
+
+            foreach ($uploads as $video) {
+                if ($video) {
+                    $v = array(
+                        'id' => $video->mediaGroup->videoid->text,
+                        'published' => date('Y-m-d H:i:s', strtotime($video->published->text)),
+                        'title' => $video->title->text,
+                        'author_name' => !empty($video->author[0]->name->text) ? $video->author[0]->name->text : null,
+                        'author_uri' => !empty($video->author[0]->uri->text) ? $video->author[0]->uri->text : null,
+                        'content' => isset($video->content->text) ? isset($video->content->text) : null,
+                        'position_in_playlist' => isset($video->position->text) ? $video->position->text : null,
+                    );
+                    
+                    $videos[] = $v;
+                }
+            }
+    
+            $startIndex += $youtubePerPage;
+            $page++;
+        }
+        
+        return $videos;
     }
 }
