@@ -11,7 +11,7 @@ Uploading video to specified in configuration file youtube account
 Example:
 
 ```
-$yt = new LemonSky_YouTube_Upload();
-$out = $yt->uploadFileFromLocalStorage('/path/to/your/film.mp4');
+$videoEntry = new LemonSky_YouTube_VideoEntry('/path/to/your/film.mp4', 'title', 'description', 'Entertainment', 'entertainment');
+$out = new LemonSky_YouTube_Upload()->uploadFileFromLocalStorage($videoEntry);
 ```
   
