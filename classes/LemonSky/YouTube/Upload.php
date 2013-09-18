@@ -39,24 +39,18 @@ class LemonSky_YouTube_Upload
      * @param string $filepath full path to file
      * @return bool|array false in case of error, video_edit_url i video_id of video on success
      */
-    public function uploadFileFromLocalStorage($filepath)
+    public function uploadFileFromLocalStorage($videoEntry)
     {
-        $slug = explode('/', $filepath);
+        $slug = explode('/', $videoEntry->getFilePath());
         $slug = end($slug);
         
-        $filesource = $this->_yt->newMediaFileSource($filepath);
+        $filesource = $this->_yt->newMediaFileSource($videoEntry->getFilePath());
         $filesource->setContentType('video/quicktime');
         $filesource->setSlug($slug);
         
-        $myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
-        $myVideoEntry->setMediaSource($filesource);
-        $myVideoEntry->setVideoTitle('Video');
-        $myVideoEntry->setVideoDescription('My video');
-        $myVideoEntry->setVideoCategory('Entertainment');
-        $myVideoEntry->setVideoPrivate();
-        $myVideoEntry->SetVideoTags('entertainment');
-
-        $newEntry = $this->_yt->insertEntry($myVideoEntry, $this->_config['upload_url'], 'Zend_Gdata_YouTube_VideoEntry');
+        $videoEntry->setSource($filesource);
+        
+        $newEntry = $this->_yt->insertEntry($videoEntry->getVideo(), $this->_config['upload_url'], 'Zend_Gdata_YouTube_VideoEntry');
         $newEntry->setMajorProtocolVersion(2);
     
         return array(
