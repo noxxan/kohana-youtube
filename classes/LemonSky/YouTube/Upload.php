@@ -6,29 +6,8 @@ class LemonSky_YouTube_Upload
     
     public function __construct($config = null)
     {
-        if (null === $config) {
-            $this->_config = Kohana::$config->load('youtube');
-        } else {
-            $this->_config = $config;
-        }
-        
-        $httpClient = Zend_Gdata_ClientLogin::getHttpClient(
-			$this->_config['username'],
-            $this->_config['password'],
-            'youtube',
-            null,
-            $this->_config['source'],
-            null,
-            null,
-            $this->_config['auth_url']
-        );
-    
-        $developerKey = $this->_config['dev_key'];
-        $applicationId = $this->_config['source'];
-        $clientId = $this->_config['source'];
-    
-        $this->_yt = new Zend_Gdata_YouTube($httpClient, $applicationId, $clientId, $developerKey);
-        $this->_yt->setMajorProtocolVersion(2);
+        $this->_yt = LemonSky_YouTube_Client::getAuthorizedYTInstance();
+        $this->_config = Kohana::$config->load('youtube');
     }
     
     /**
