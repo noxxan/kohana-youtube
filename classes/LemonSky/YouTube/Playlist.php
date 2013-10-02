@@ -18,7 +18,9 @@ class LemonSky_YouTube_Playlist
         $postLocation = 'http://gdata.youtube.com/feeds/api/users/default/playlists';
         try {
             $playlist = $this->_yt->insertEntry($newPlaylist, $postLocation);
-            return end(explode(":", $playlist->id->text));
+            $playlistId = explode(":", $playlist->id->text);
+            $playlistId = end($playlistId);
+            return $playlistId;
         } catch (Zend_Gdata_App_Exception $e) {
             Kohana::$log->add(Log::ERROR, $e->getMessage());
         }
